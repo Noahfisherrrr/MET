@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Calorie Counter</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+  <div class="container">
+    <h2>Bike Ride Calorie Estimator</h2>
+
+    <label for="weight">Weight (kg)</label>
+    <input type="number" id="weight" value="97" />
+
+    <label for="duration">Time (hours)</label>
+    <input type="number" step="0.01" id="duration" value="1.25" />
+
+    <label for="elevation">Elevation Gain (m)</label>
+    <input type="number" id="elevation" value="312" />
+
+    <label for="bikeType">Bike Type</label>
+    <select id="bikeType">
+      <option value="road">Road Bike</option>
+      <option value="gravel">Gravel Bike</option>
+      <option value="mtb">Mountain Bike (MTB)</option>
+    </select>
+
+    <label for="rideImage">GPS Track Image (optional)</label>
+    <input type="file" id="rideImage" accept="image/*" />
+
+    <button onclick="calculateCalories()">Estimate Calories</button>
+
+    <div class="result" id="result"></div>
+    <div class="map-preview" id="mapPreview"></div>
+  </div>
+
+  <script src="app.js"></script> 
+</body>
+</html>
