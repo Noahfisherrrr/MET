@@ -1,25 +1,3 @@
-function getMET(elevation, duration, bikeType) {
-  if (bikeType === "road") {
-    if (elevation > 300 && duration < 2) return 10;
-    if (elevation > 100) return 9;
-    return 7.5;
-  }
-
-  if (bikeType === "gravel") {
-    if (elevation > 300 && duration < 2) return 11;
-    if (elevation > 100) return 9.5;
-    return 8.5;
-  }
-
-  if (bikeType === "mtb") {
-    if (elevation > 300 && duration < 2) return 12;
-    if (elevation > 100) return 10;
-    return 8.5;
-  }
-
-  return 8.5; // default fallback
-}
-
 function calculateCalories() {
   const weight = parseFloat(document.getElementById("weight").value);
   const duration = parseFloat(document.getElementById("duration").value);
@@ -30,6 +8,16 @@ function calculateCalories() {
   const MET = getMET(elevation, duration, bikeType);
   const calories = MET * weight * duration;
 
+  // Estimate carbohydrate burn percentage based on MET
+  let carbPercent;
+  if (MET <= 6) carbPercent = 0.5;
+  else if (MET <= 9) carbPercent = 0.65;
+  else if (MET <= 11) carbPercent = 0.75;
+  else carbPercent = 0.85;
+
+  const carbCalories = calories * carbPercent;
+  const carbsBurned = carbCalories / 4; // 1g carbs = 4 kcal
+
   const bikeName = {
     road: "Road Bike",
     gravel: "Gravel Bike",
@@ -37,7 +25,9 @@ function calculateCalories() {
   }[bikeType];
 
   document.getElementById("result").innerHTML =
-    `🔥 Estimated Calories Burned: <strong>${calories.toFixed(0)} kcal</strong><br>(MET: ${MET}, ${bikeName})`;
+    `🔥 <strong>${calories.toFixed(0)} kcal</strong> burned<br>
+     🚴 ${bikeName} | MET: ${MET}<br>
+     🍞 Carbs burned: <strong>${carbsBurned.toFixed(0)}g</strong> (~${Math.round(carbPercent * 100)}% of energy)`;
 
   if (rideImage) {
     const reader = new FileReader();
